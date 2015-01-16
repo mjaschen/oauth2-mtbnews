@@ -31,6 +31,11 @@ use League\OAuth2\Client\Token\AccessToken;
 class RennradNews extends AbstractProvider
 {
     /**
+     * Offset for Rennrad-News.de user IDs
+     */
+    const ID_OFFSET = 100000000;
+
+    /**
      * Get the URL that this provider uses to begin authorization.
      *
      * @return string
@@ -73,7 +78,11 @@ class RennradNews extends AbstractProvider
      */
     public function userDetails($response, AccessToken $token)
     {
-        // return all data unprocessed (as instance of \stdClass)
-        return $response;
+        $userDetails = $response;
+
+        // Rennrad-News.de Users get an offset added to their User ID
+        $userDetails->user->user_id += static::ID_OFFSET;
+
+        return $userDetails;
     }
 }
