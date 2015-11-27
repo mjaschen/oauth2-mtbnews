@@ -17,7 +17,10 @@
 namespace MarcusJaschen\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * oAuth 2 Provider for Rennrad-News.de
@@ -31,49 +34,91 @@ use League\OAuth2\Client\Token\AccessToken;
 class RennradNews extends AbstractProvider
 {
     /**
-     * Get the URL that this provider uses to begin authorization.
+     * Returns the base URL for authorizing a client.
+     *
+     * Eg. https://oauth.service.com/authorize
      *
      * @return string
      */
-    public function urlAuthorize()
+    public function getBaseAuthorizationUrl()
     {
         return 'https://www.rennrad-news.de/forum/api/oauth/authorize';
     }
 
     /**
-     * Get the URL that this provider users to request an access token.
+     * Returns the base URL for requesting an access token.
+     *
+     * Eg. https://oauth.service.com/token
+     *
+     * @param array $params
      *
      * @return string
      */
-    public function urlAccessToken()
+    public function getBaseAccessTokenUrl(array $params)
     {
         return 'https://www.rennrad-news.de/forum/api/oauth/token';
     }
 
     /**
-     * Get the URL that this provider uses to request user details.
+     * Returns the URL for requesting the resource owner's details.
      *
      * @param AccessToken $token
      *
      * @return string
      */
-    public function urlUserDetails(AccessToken $token)
+    public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
         return 'https://www.rennrad-news.de/forum/api/users/me?oauth_token=' . (string) $token;
     }
 
     /**
-     * Given an object response from the server, process the user details into a format expected by the user
-     * of the client.
+     * Returns the default scopes used by this provider.
      *
-     * @param object $response
-     * @param AccessToken $token
+     * This should only be the scopes that are required to request the details
+     * of the resource owner, rather than all the available scopes.
      *
-     * @return mixed
+     * @return array
      */
-    public function userDetails($response, AccessToken $token)
+    protected function getDefaultScopes()
     {
-        // return all data unprocessed (as instance of \stdClass)
+        return [
+            'read',
+        ];
+    }
+
+    /**
+     * Checks a provider response for errors.
+     *
+     * @throws IdentityProviderException
+     *
+     * @param  ResponseInterface $response
+     * @param  array|string $data Parsed response data
+     *
+     * @return void
+     */
+    protected function checkResponse(ResponseInterface $response, $data)
+    {
+        if ($response->getStatusCode() != 200) {
+            throw new IdentityProviderException(
+                "Invalid response from oAuth Server",
+                $response->getStatusCode(),
+                $response
+            );
+        }
+    }
+
+    /**
+     * Generates a resource owner object from a successful resource owner
+     * details request.
+     *
+     * @param  array $response
+     * @param  AccessToken $token
+     *
+     * @return ResourceOwnerInterface
+     */
+    protected function createResourceOwner(array $response, AccessToken $token)
+    {
+        // return all data unprocessed
         return $response;
     }
 }

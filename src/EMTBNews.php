@@ -1,6 +1,6 @@
 <?php
 /**
- * oAuth 2 Provider for MTB-News.de
+ * oAuth 2 Provider for eMTB-News.de
  *
  * This provider integrates in the oAuth 2.0 Client package vom "The PHP League"
  *
@@ -23,7 +23,7 @@ use League\OAuth2\Client\Token\AccessToken;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * oAuth 2 Provider for MTB-News.de
+ * oAuth 2 Provider for eMTB-News.de
  *
  * @category MarcusJaschen
  * @package  OAuth2
@@ -31,50 +31,8 @@ use Psr\Http\Message\ResponseInterface;
  * @license  http://www.opensource.org/licenses/mit-license MIT License
  * @link     https://www.marcusjaschen.de/
  */
-class MTBNews extends AbstractProvider
+class EMTBNews extends AbstractProvider
 {
-    /**
-     * Get the URL that this provider uses to begin authorization.
-     *
-     * @return string
-     */
-    public function urlAuthorize()
-    {
-    }
-
-    /**
-     * Get the URL that this provider users to request an access token.
-     *
-     * @return string
-     */
-    public function urlAccessToken()
-    {
-    }
-
-    /**
-     * Get the URL that this provider uses to request user details.
-     *
-     * @param AccessToken $token
-     *
-     * @return string
-     */
-    public function urlUserDetails(AccessToken $token)
-    {
-    }
-
-    /**
-     * Given an object response from the server, process the user details into a format expected by the user
-     * of the client.
-     *
-     * @param object $response
-     * @param AccessToken $token
-     *
-     * @return mixed
-     */
-    public function userDetails($response, AccessToken $token)
-    {
-    }
-
     /**
      * Returns the base URL for authorizing a client.
      *
@@ -84,7 +42,7 @@ class MTBNews extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return 'https://www.mtb-news.de/forum/api/oauth/authorize';
+        return 'https://www.emtb-news.de/forum/api/oauth/authorize';
     }
 
     /**
@@ -98,7 +56,7 @@ class MTBNews extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return 'https://www.mtb-news.de/forum/api/oauth/token';
+        return 'https://www.emtb-news.de/forum/api/oauth/token';
     }
 
     /**
@@ -110,7 +68,7 @@ class MTBNews extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return 'https://www.mtb-news.de/forum/api/users/me?oauth_token=' . (string) $token;
+        return 'https://www.emtb-news.de/forum/api/users/me?oauth_token=' . (string) $token;
     }
 
     /**
@@ -160,6 +118,5 @@ class MTBNews extends AbstractProvider
      */
     protected function createResourceOwner(array $response, AccessToken $token)
     {
-        // return all data unprocessed
         return $response;
 }}
