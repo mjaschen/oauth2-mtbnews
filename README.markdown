@@ -4,6 +4,10 @@ This package provides [MTB-News.de](http://www.mtb-news.de/), [Rennrad-News.de](
 and [eMTB-News.de](http://www.emtb-news.de/) integration for
 [OAuth2 Client](https://github.com/thephpleague/oauth2-client) by *[The League](http://thephpleague.com/).*
 
+## Requirements
+
+* PHP 5.4 or later
+
 ## Installation
 
 ```sh
