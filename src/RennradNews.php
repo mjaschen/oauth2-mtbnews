@@ -31,7 +31,7 @@ use Psr\Http\Message\ResponseInterface;
  * @license  http://www.opensource.org/licenses/mit-license MIT License
  * @link     https://www.marcusjaschen.de/
  */
-class RennradNews extends AbstractProvider
+class RennradNews extends AbstractProvider implements ProviderInterface
 {
     /**
      * Returns the base URL for authorizing a client.
