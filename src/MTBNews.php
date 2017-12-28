@@ -31,7 +31,7 @@ use Psr\Http\Message\ResponseInterface;
  * @license  http://www.opensource.org/licenses/mit-license MIT License
  * @link     https://www.marcusjaschen.de/
  */
-class MTBNews extends AbstractProvider
+class MTBNews extends AbstractProvider implements ProviderInterface
 {
     /**
      * Get the URL that this provider uses to begin authorization.
